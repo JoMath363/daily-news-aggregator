@@ -6,9 +6,12 @@ import search_icon from '../Assets/search-icon.png'
 
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react';
+import { useGlobalRequest } from '../../Contexts/RequestContext';
 
 const Navbar = ({ setCategory }) => {
     const [user, setUser] = useState(null);
+    const { setRequest } = useGlobalRequest();
+ 
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -38,7 +41,7 @@ const Navbar = ({ setCategory }) => {
             navigate('/')
         }
 
-        setCategory(category)
+        setRequest([category, 'category'])
     }
 
     return (
