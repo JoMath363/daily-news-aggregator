@@ -1,0 +1,25 @@
+:root {
+    --primary: #3944BC;
+    --secondary: #1F456E;
+    --accent: white;
+    --background: #EAEBF0;
+    --subtext: #4D505E;
+    --text: #27282F;
+}
+
+*,
+*:after,
+*:before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+    background: var(--background);
+
+    font-family: 'Times New Roman', Times, serif;
+}
