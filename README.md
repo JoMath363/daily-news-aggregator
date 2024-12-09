@@ -1,3 +1,3 @@
-# News Aggregator in MERN Stack
+# Daily News Aggregator
 
 
