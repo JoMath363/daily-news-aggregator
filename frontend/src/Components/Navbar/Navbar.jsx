@@ -11,7 +11,7 @@ import { useGlobalRequest } from '../../Contexts/RequestContext';
 const Navbar = ({ setCategory }) => {
     const [user, setUser] = useState(null);
     const { setRequest } = useGlobalRequest();
- 
+
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -36,12 +36,24 @@ const Navbar = ({ setCategory }) => {
         sidebar.classList.toggle('active')
     }
 
-    const changeCategory = (category) => {
+    const goToCategory = (category) => {
         if (location.pathname !== '/') {
             navigate('/')
         }
 
         setRequest([category, 'category'])
+    }
+
+    const goToSearch = () => {
+        const searchValue = document.getElementById('search_input').value
+
+        if (location.pathname !== '/') {
+            navigate('/')
+        }
+
+        if (searchValue != '') {
+            setRequest([searchValue, 'search'])
+        }
     }
 
     return (
@@ -68,18 +80,18 @@ const Navbar = ({ setCategory }) => {
             <aside id="side_bar">
                 <div id="search_box">
                     <input id="search_input" type="search" placeholder="Search" />
-                    <img src={search_icon} />
+                    <img src={search_icon} onClick={goToSearch} />
                 </div>
 
                 <nav id="side_nav">
                     <a href='/favorites'>Favorites</a>
-                    <button onClick={() => changeCategory('general')}>General</button>
-                    <button onClick={() => changeCategory('business')}>Business</button>
-                    <button onClick={() => changeCategory('entertainment')}>Entertainment</button>
-                    <button onClick={() => changeCategory('health')}>Health</button>
-                    <button onClick={() => changeCategory('science')}>Science</button>
-                    <button onClick={() => changeCategory('sports')}>Sports</button>
-                    <button onClick={() => changeCategory('technology')}>Technology</button>
+                    <button onClick={() => goToCategory('general')}>General</button>
+                    <button onClick={() => goToCategory('business')}>Business</button>
+                    <button onClick={() => goToCategory('entertainment')}>Entertainment</button>
+                    <button onClick={() => goToCategory('health')}>Health</button>
+                    <button onClick={() => goToCategory('science')}>Science</button>
+                    <button onClick={() => goToCategory('sports')}>Sports</button>
+                    <button onClick={() => goToCategory('technology')}>Technology</button>
                 </nav>
             </aside>
         </header>

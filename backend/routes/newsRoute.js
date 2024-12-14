@@ -26,12 +26,47 @@ router.post('/category', async (req, res) => {
             throw new Error("Invalid API response");
         }
 
-        const months = [
-            "January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"
-        ];
+        const news = getFormatedArticles(response.articles, user)
 
-        const news = response.articles
+        res.status(200).json(news);
+    } catch (error) {
+        console.error("Error fetching data:", error.message);
+        res.status(500).json({ error: "Failed to fetch news" });
+    }
+});
+
+router.post('/search', async (req, res) => {
+    const { search, email } = req.body;
+
+    try {
+        if (!search) {
+            return res.status(400).json({ error: "Search input is required" });
+        }
+
+        const user = email ? await UserModel.findOne({ email }) : null;
+
+        const response = await newsapi.v2.everything({ q: search });
+
+        if (!response || !response.articles) {
+            throw new Error("Invalid API response");
+        }
+
+        const news = getFormatedArticles(response.articles, user)
+
+        res.status(200).json(news);
+    } catch (error) {
+        console.error("Error fetching data:", error.message);
+        res.status(500).json({ error: "Failed to fetch news" });
+    }
+});
+
+const getFormatedArticles = (articles, user) => {
+    const months = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+
+    return articles
             .filter((article) => article.title !== '[Removed]')
             .map((article) => {
                 const date = new Date(article.publishedAt);
@@ -49,14 +84,7 @@ router.post('/category', async (req, res) => {
 
                 return article;
             });
-
-        res.status(200).json(news);
-    } catch (error) {
-        console.error("Error fetching data:", error.message);
-        res.status(500).json({ error: "Failed to fetch news" });
-    }
-});
-
+}
 
 
 export default router

@@ -11,7 +11,13 @@ const Home = (props) => {
 	const [news, setNews] = useState([])
 
 	useEffect(() => {
-		async function fetchNews() {
+		function fetchNews() {
+			const requestType = request[1];
+
+			requestType == 'category' ? fetchCategory() : fetchSearch()
+		}
+
+		const fetchCategory = async () => {
 			try {
 				const email = user?.email ?? null;
 				const category = request[0]; 
@@ -20,6 +26,26 @@ const Home = (props) => {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({ category, email }),
+				});
+
+				if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+				const result = await response.json();
+				setNews(result);
+			} catch (error) {
+				console.error("Error fetching data:", error);
+			}
+		}
+
+		const fetchSearch = async () => {
+			try {
+				const email = user?.email ?? null;
+				const search = request[0]; 
+
+				const response = await fetch("http://localhost:5555/news/search", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ search, email }),
 				});
 
 				if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
