@@ -2,13 +2,21 @@ import './NewsDisplay.css';
 
 import NewsItem from '../NewsItem/NewsItem';
 import news_placeholder_icon from '../Assets/news-placeholder-icon.png'
-import { useState } from 'react';
+import { useGlobalRequest } from '../../Contexts/RequestContext.jsx'
+import { useState, useEffect } from 'react';
 
 /* import news_json from '../TempFiles/news.json' */
 
 const NewsDisplay = ({ news, title }) => {
 
+	const request = useGlobalRequest()
+
 	const [page, setPage] = useState(0)
+
+	useEffect(() => {
+		setPage(0)
+	}, [request])
+
 	const currentNews = news.slice(page * 10, (page + 1) * 10);
 
 	const getMaxPages = () => {
