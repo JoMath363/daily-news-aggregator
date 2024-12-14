@@ -7,6 +7,8 @@ import { useGlobalRequest } from '../Contexts/RequestContext';
 const Home = (props) => {
 
 	const user = JSON.parse(localStorage.getItem('user'))
+	const apiUrl = import.meta.env.VITE_API_URL;
+
 	const { request, setRequest } = useGlobalRequest();
 	const [news, setNews] = useState([])
 
@@ -22,7 +24,7 @@ const Home = (props) => {
 				const email = user?.email ?? null;
 				const category = request[0]; 
 
-				const response = await fetch("http://localhost:5555/news/category", {
+				const response = await fetch(`${apiUrl}/news/category`, {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({ category, email }),
@@ -42,7 +44,7 @@ const Home = (props) => {
 				const email = user?.email ?? null;
 				const search = request[0]; 
 
-				const response = await fetch("http://localhost:5555/news/search", {
+				const response = await fetch(`${apiUrl}/news/search`, {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({ search, email }),

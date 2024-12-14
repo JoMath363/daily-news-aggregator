@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom'
 
 const Login = (props) => {
 
+   const apiUrl = import.meta.env.VITE_API_URL;
+
    const [email, setEmail] = useState('')
    const [password, setPassword] = useState('')
    const navigate = useNavigate();
@@ -16,7 +18,7 @@ const Login = (props) => {
          password: password
       }
 
-      fetch('http://localhost:5555/user/login', {
+      fetch(`${apiUrl}/user/login`, {
          method: "POST",
          headers: {
             "Content-Type": "application/json",
