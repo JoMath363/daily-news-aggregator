@@ -21,6 +21,11 @@ app.use('/news', newsRoute);
 app.use('/user', userRoute);
 app.use('/favorites', favoritesRoute);
 
+// Test api
+app.get('/', (req, res) => {
+    res.send('Welcome to the API!');
+});
+
 // Connecting Mongoose with the target DataBase
 mongoose
     .connect(mongoDBURL)
